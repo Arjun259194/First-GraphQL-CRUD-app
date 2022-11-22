@@ -9,7 +9,7 @@ import {
 import Client from "../modules/Client.js";
 import Project from "../modules/Project.js";
 
-// CLIENT Tyle
+// CLIENT type
 const ClientType = new GraphQLObjectType({
   name: "Client",
   fields: () => ({
@@ -30,8 +30,8 @@ const ProjectType = new GraphQLObjectType({
     status: { type: GraphQLString },
     client: {
       type: ClientType,
-      resolve(perent, _args) {
-        return Client.findById(perent.id);
+      resolve(parent, _args) {
+        return Client.findById(parent.id); //? how can it find client with project id??
       },
     },
   }),
@@ -42,27 +42,27 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     projects: {
       type: new GraphQLList(ProjectType),
-      resolve(_perent, _args) {
+      resolve(_parent, _args) {
         return Project.find();
       },
     },
     project: {
       type: ProjectType,
       args: { id: { type: GraphQLID } },
-      resolve(_perent, args) {
+      resolve(_parent, args) {
         return Project.findById(args.id);
       },
     },
     clients: {
       type: new GraphQLList(ClientType),
-      resolve(_perent, _args) {
+      resolve(_parent, _args) {
         return Client.find();
       },
     },
     client: {
       type: ClientType,
       args: { id: { type: GraphQLID } },
-      resolve(_perent, args) {
+      resolve(_parent, args) {
         return Client.findById(args.id);
       },
     },
@@ -81,7 +81,7 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLNonNull(GraphQLString) },
         phone: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve(_perent, args) {
+      resolve(_parent, args) {
         const client = new Client({
           name: args.name,
           email: args.email,
@@ -96,7 +96,7 @@ const mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLID) },
       },
-      resolve(_perent, args) {
+      resolve(_parent, args) {
         return Client.findByIdAndRemove(args.id);
       },
     },

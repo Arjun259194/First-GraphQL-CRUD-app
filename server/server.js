@@ -2,10 +2,10 @@ import express from "express";
 import env from "dotenv";
 import { graphqlHTTP } from "express-graphql";
 import schema from './schema/schema.js'
-import colors from 'colors'
-import connectDB from './config/db.js'
+import colors from 'colors' // to color text in terminal
+import connectDB from './config/db.js' // database connection function
 
-env.config();
+env.config(); // so we can use .env file
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,8 +15,8 @@ const app = express();
 connectDB()
 
 app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  graphiql: process.env.NODE_ENV === 'development'
+  schema: schema, // setting up graphQL schema for request and response
+  graphiql: process.env.NODE_ENV === 'development' // checking for development environment 
 }))
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`.yellow.underline.bold));
